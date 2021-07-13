@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: policy-violation
+  labels:
+    platform: 'edge-agent'
+    workload: platform
+  annotations:
+    configmanagement.gke.io/cluster-selector: 'fleet-store'
