@@ -56,12 +56,13 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
 	fmt.Println("\nOpa Audit response\n", resps)
 
 	if len(resps.Results()) > 0 {
 		fmt.Println("violations found!")
-		for k, v := range resps.ByTarget {
-			fmt.Println(k, v.Input, v.Target, v.Trace, v.Results)
+		for _, result := range resps.Results() {
+			fmt.Println(result.Constraint, result.Msg)
 		}
 		os.Exit(1)
 	}
