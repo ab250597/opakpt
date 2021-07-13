@@ -12,32 +12,10 @@ import (
 	"github.com/open-policy-agent/frameworks/constraint/pkg/client/drivers/local"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/core/templates"
 	"github.com/open-policy-agent/gatekeeper/pkg/target"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	yamlutil "k8s.io/apimachinery/pkg/util/yaml"
 )
-
-// KubernetesObject represents a single Kubernetes object.
-type KubernetesObject interface {
-	metav1.Object
-	GroupVersionKind() schema.GroupVersionKind
-}
-
-var config []KubernetesObject
-
-// var scheme = runtime.NewScheme()
-
-// func init() {
-// 	io.Register(v1beta1.SchemeGroupVersion.WithKind("ConstraintTemplate"), func() types.KubernetesObject {
-// 		return &v1beta1.ConstraintTemplate{}
-// 	})
-// 	err := v1beta1.AddToSchemes.AddToScheme(scheme)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// }
 
 func main() {
 	//fmt.Println(string(y))
@@ -51,24 +29,11 @@ func main() {
 		os.Exit(4)
 	}
 
-	// templ := &templates.ConstraintTemplate{}
-	// client.GetTemplate(ctx, templ)
-	// fmt.Println("GET Constraint Template:\n", templ)
-
 	c := ReadConstraint()
 	if _, err = client.AddConstraint(ctx, c); err != nil {
 		fmt.Println(err)
 		os.Exit(7)
 	}
-
-	// if err = client.ValidateConstraint(ctx, ReadConstraint()); err != nil {
-	// 	fmt.Println("IT DID NOT WORK!")
-	// 	os.Exit(8)
-	// }
-
-	// obj := &unstructured.Unstructured{}
-	// client.GetConstraint(ctx, obj)
-	// fmt.Println("GET Constraint:\n", obj)
 
 	d := ReadData()
 	if _, err = client.AddData(ctx, d); err != nil {
